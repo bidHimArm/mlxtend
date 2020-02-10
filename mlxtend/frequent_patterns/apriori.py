@@ -6,6 +6,7 @@
 
 import numpy as np
 import pandas as pd
+import swifter
 from ..frequent_patterns import fpcommon as fpc
 
 
@@ -327,8 +328,8 @@ def apriori(df, min_support=0.5, use_colnames=False, max_len=None, verbose=0,
     res_df.columns = ['support', 'itemsets']
     if use_colnames:
         mapping = {idx: item for idx, item in enumerate(df.columns)}
-        res_df['itemsets'] = res_df['itemsets'].apply(lambda x: frozenset([
-                                                      mapping[i] for i in x]))
+        res_df['itemsets'] = res_df['itemsets']  \
+            .swifter.apply(lambda x: frozenset([mapping[i] for i in x]))
     res_df = res_df.reset_index(drop=True)
 
     if verbose:

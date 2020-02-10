@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import collections
+import swifter
 from distutils.version import LooseVersion as Version
 from pandas import __version__ as pandas_version
 
@@ -76,7 +77,7 @@ def generate_itemsets(generator, num_itemsets, colname_map):
 
     if colname_map is not None:
         res_df['itemsets'] = res_df['itemsets'] \
-            .apply(lambda x: frozenset([colname_map[i] for i in x]))
+            .swifter.apply(lambda x: frozenset([colname_map[i] for i in x]))
 
     return res_df
 

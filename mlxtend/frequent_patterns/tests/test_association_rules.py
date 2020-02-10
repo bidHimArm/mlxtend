@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import swifter
 from mlxtend.frequent_patterns import apriori, association_rules
 from numpy.testing import assert_raises as numpy_assert_raises
 
@@ -26,9 +27,9 @@ columns_ordered = ['antecedents', 'consequents',
 
 def test_default():
     res_df = association_rules(df_freq_items)
-    res_df['antecedents'] = res_df['antecedents'].apply(
+    res_df['antecedents'] = res_df['antecedents'].swifter.apply(
         lambda x: str(frozenset(x)))
-    res_df['consequents'] = res_df['consequents'].apply(
+    res_df['consequents'] = res_df['consequents'].swifter.apply(
         lambda x: str(frozenset(x)))
     res_df.sort_values(columns_ordered, inplace=True)
     res_df.reset_index(inplace=True, drop=True)
@@ -46,9 +47,9 @@ def test_default():
         columns=columns_ordered
     )
 
-    expect['antecedents'] = expect['antecedents'].apply(
+    expect['antecedents'] = expect['antecedents'].swifter.apply(
         lambda x: str(frozenset(x)))
-    expect['consequents'] = expect['consequents'].apply(
+    expect['consequents'] = expect['consequents'].swifter.apply(
         lambda x: str(frozenset(x)))
     expect.sort_values(columns_ordered, inplace=True)
     expect.reset_index(inplace=True, drop=True)
@@ -69,7 +70,7 @@ def test_datatypes():
     # back to frozensets
     df_freq_items_copy = df_freq_items.copy()
     df_freq_items_copy['itemsets'] = df_freq_items_copy['itemsets']\
-        .apply(lambda x: set(x))
+        .swifter.apply(lambda x: set(x))
 
     res_df = association_rules(df_freq_items)
     for i in res_df['antecedents']:

@@ -5,6 +5,7 @@ from mlxtend.frequent_patterns import fpmax
 from test_fpbase import FPTestEdgeCases, FPTestErrors, FPTestEx1, FPTestEx2, \
     FPTestEx3All
 from test_fpbase import compare_dataframes
+import swifter
 
 
 class TestEdgeCases(unittest.TestCase, FPTestEdgeCases):
@@ -32,11 +33,11 @@ class TestEx1(unittest.TestCase, FPTestEx1):
 
     def test_max_len(self):
         res_df1 = fpmax(self.df)
-        max_len = np.max(res_df1['itemsets'].apply(len))
+        max_len = np.max(res_df1['itemsets'].swifter.apply(len))
         assert max_len == 3
 
         res_df2 = fpmax(self.df, max_len=2)
-        max_len = np.max(res_df2['itemsets'].apply(len))
+        max_len = np.max(res_df2['itemsets'].swifter.apply(len))
         assert max_len == 2
 
 

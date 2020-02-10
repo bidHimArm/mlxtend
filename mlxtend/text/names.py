@@ -13,6 +13,7 @@ import re
 import sys
 from pandas import __version__ as pandas_version
 from distutils.version import LooseVersion as Version
+import swifter
 
 
 if sys.version_info <= (3, 0):
@@ -127,7 +128,7 @@ def generalize_names_duplcheck(df, col_name):
 
     df_new.drop_duplicates(subset=[col_name], inplace=True)
 
-    df_new[col_name] = df_new[col_name].apply(generalize_names)
+    df_new[col_name] = df_new[col_name].swifter.apply(generalize_names)
 
     if Version(pandas_version) < '0.17':
         dupl = (list(df_new[df_new.duplicated(subset=col_name,

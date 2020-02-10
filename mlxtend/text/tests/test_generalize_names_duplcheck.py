@@ -9,6 +9,7 @@ from mlxtend.text import generalize_names_duplcheck
 from mlxtend.text import generalize_names
 from io import StringIO
 import pandas as pd
+import swifter
 
 
 def test_generalize_names_duplcheck():
@@ -16,7 +17,7 @@ def test_generalize_names_duplcheck():
     df = pd.read_csv(StringIO(csv))
 
     # duplicates before
-    dupl = any(df['Name'].apply(generalize_names).duplicated())
+    dupl = any(df['Name'].swifter.apply(generalize_names).duplicated())
     assert dupl is True
 
     # no duplicates

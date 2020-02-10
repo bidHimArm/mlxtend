@@ -15,6 +15,7 @@ from distutils.version import LooseVersion as Version
 import sys
 from contextlib import contextmanager
 from io import StringIO
+import swifter
 
 
 @contextmanager
@@ -215,11 +216,11 @@ class FPTestEx1All(FPTestEx1):
 
     def test_max_len(self):
         res_df1 = self.fpalgo(self.df)
-        max_len = np.max(res_df1['itemsets'].apply(len))
+        max_len = np.max(res_df1['itemsets'].swifter.apply(len))
         assert max_len == 3
 
         res_df2 = self.fpalgo(self.df, max_len=2)
-        max_len = np.max(res_df2['itemsets'].apply(len))
+        max_len = np.max(res_df2['itemsets'].swifter.apply(len))
         assert max_len == 2
 
     def test_low_memory_flag(self):

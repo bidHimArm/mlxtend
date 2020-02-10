@@ -6,6 +6,7 @@
 import math
 import itertools
 from ..frequent_patterns import fpcommon as fpc
+import tqdm.notebook as ntqdm
 
 
 def fpgrowth(df, min_support=0.5, use_colnames=False, max_len=None, verbose=0):
@@ -98,13 +99,13 @@ def fpg_step(tree, minsup, colnames, max_len, verbose):
         size_remain = len(items) + 1
         if max_len:
             size_remain = max_len - len(tree.cond_items) + 1
-        for i in range(1, size_remain):
+        for i in ntqdm(range(1, size_remain)):
             for itemset in itertools.combinations(items, i):
                 count += 1
                 support = min([tree.nodes[i][0].count for i in itemset])
                 yield support, tree.cond_items + list(itemset)
     elif not max_len or max_len > len(tree.cond_items):
-        for item in items:
+        for item in ntqdm(items):
             count += 1
             support = sum([node.count for node in tree.nodes[item]])
             yield support, tree.cond_items + [item]
@@ -114,7 +115,7 @@ def fpg_step(tree, minsup, colnames, max_len, verbose):
 
     # Generate conditional trees to generate frequent itemsets one item larger
     if not tree.is_path() and (not max_len or max_len > len(tree.cond_items)):
-        for item in items:
+        for item in ntqdm(items):
             cond_tree = tree.conditional_tree(item, minsup)
             for sup, iset in fpg_step(cond_tree, minsup,
                                       colnames, max_len, verbose):

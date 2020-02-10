@@ -22,8 +22,9 @@ The CHANGELOG for the current development version is available at
 
 ##### Changes
 
-- -
+- Improve the runtime performance by making all pandas apply parrallel using swifter.
 
+- Added a progressbar for the fpgrowth function to track progress.
 
 ##### Bug Fixes
 
